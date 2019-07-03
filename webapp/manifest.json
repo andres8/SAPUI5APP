@@ -40,6 +40,7 @@
 			"type": "XML",
 			"id": "app"
 		},
+		"handleValidation": true,
 		"autoPrefixId": true,
 		"dependencies": {
 			"minUI5Version": "1.34",
