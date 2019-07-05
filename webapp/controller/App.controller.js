@@ -1,8 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
-	"opensap/myapp/model/formatter"
-], function (Controller, MessageToast, formatter) {
+	"opensap/myapp/model/formatter",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
+], function (Controller, MessageToast, formatter, Filter, FilterOperator) {
 	Controller.extend("opensap.myapp.controller.App", {
 			formatter : formatter,
 		onShowHello: function () {
@@ -12,6 +14,20 @@ sap.ui.define([
 			var sMsg = oBundle.getText("helloMsg", [sRecipient]);
 			// show message
 			MessageToast.show(sMsg);
+		},
+		onFilterProducts: function (oEvent){
+			// build filter array
+			var aFilter = [], sQuery= oEvent.getParameter("query"),
+			// retrieve list control
+			oList = this.getView().byId("productsList"),
+			// get binding for aggregation 'items'
+			oBinding = oList.getBinding("items");
+			if (sQuery){
+				aFilter.push(new Filter("ProductID", FilterOperator.Contains, sQuery));
+			}
+			// apply filter. an empty filter array simply removes the filter
+			// which will make all entries visible again
+			oBinding.filter(aFilter);
 		}
 	});
 });
